@@ -4,8 +4,6 @@ author: spathizilla
 authors: 
   - flames
   - tkelly
-softdepend:
-  - Help
 main: me.taylorkelly.mywarp.MyWarp
 commands:
   warp:

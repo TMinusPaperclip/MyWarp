@@ -1,9 +1,5 @@
 package me.taylorkelly.mywarp;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -17,14 +13,12 @@ import me.taylorkelly.mywarp.listeners.MWBlockListener;
 import me.taylorkelly.mywarp.listeners.MWPlayerListener;
 import me.taylorkelly.mywarp.permissions.WarpPermissions;
 import me.taylorkelly.mywarp.sql.ConnectionManager;
-import me.taylorkelly.mywarp.utils.WarpHelp;
 import me.taylorkelly.mywarp.utils.WarpLogger;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -67,7 +61,6 @@ public class MyWarp extends JavaPlugin {
         playerListener = new MWPlayerListener(warpList);
 
         WarpPermissions.initialize(this);
-        WarpHelp.initialize(this);
         
         pm.registerEvents(blockListener, this);
         pm.registerEvents(playerListener, this);
@@ -95,58 +88,6 @@ public class MyWarp extends JavaPlugin {
         return true;
     }
     
-    private void updateFiles(File oldDatabase, File newDatabase) {
-        if (!getDataFolder().exists()) {
-            getDataFolder().mkdirs();
-        }
-        if (newDatabase.exists()) {
-            newDatabase.delete();
-        }
-        try {
-            newDatabase.createNewFile();
-        } catch (IOException ex) {
-        	WarpLogger.severe("Could not create new database file", ex);
-        }
-        copyFile(oldDatabase, newDatabase);
-    }
-
-    /**
-     * File copier from xZise
-     * @param fromFile
-     * @param toFile
-     */
-    private static void copyFile(File fromFile, File toFile) {
-        FileInputStream from = null;
-        FileOutputStream to = null;
-        try {
-            from = new FileInputStream(fromFile);
-            to = new FileOutputStream(toFile);
-            byte[] buffer = new byte[4096];
-            int bytesRead;
-
-            while ((bytesRead = from.read(buffer)) != -1) {
-                to.write(buffer, 0, bytesRead);
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(MyWarp.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (from != null) {
-                try {
-                    from.close();
-                } catch (IOException e) {
-                }
-            }
-            if (to != null) {
-                try {
-                    to.close();
-                } catch (IOException e) {
-                }
-            }
-        }
-    }
-    
-    private boolean warning;
-
     public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
         String[] split = args;
         String commandName = command.getName().toLowerCase();

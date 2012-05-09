@@ -11,10 +11,6 @@ public class WarpPermissions {
 	public static void initialize(Plugin plugin) {
 		permissionsHandler = new PermissionsHandler(plugin);
 	}
-	
-	public static int integer(Player player, String node, int defaultInt) {
-		return permissionsHandler.getInteger(player, node, defaultInt);
-	}
 
     public static boolean isAdmin(Player player) {
         return permissionsHandler.hasPermission(player, "mywarp.admin", player.isOp());

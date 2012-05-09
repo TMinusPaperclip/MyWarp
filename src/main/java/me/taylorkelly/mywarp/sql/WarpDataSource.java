@@ -9,9 +9,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.io.File;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import me.taylorkelly.mywarp.WarpSettings;
 import me.taylorkelly.mywarp.data.Warp;
 import me.taylorkelly.mywarp.utils.WarpLogger;
@@ -94,7 +91,6 @@ public class WarpDataSource {
                 return false;
             return true;
         } catch (SQLException ex) {
-            Logger log = Logger.getLogger("Minecraft");
             WarpLogger.severe("[MYWARP]: Table Check Exception", ex);
             return false;
         } finally {
@@ -102,7 +98,6 @@ public class WarpDataSource {
                 if (rs != null)
                     rs.close();
             } catch (SQLException ex) {
-                Logger log = Logger.getLogger("Minecraft");
                 WarpLogger.severe("[MYWARP]: Table Check SQL Exception (on closing)");
             }
         }
@@ -190,7 +185,6 @@ public class WarpDataSource {
 
     public static void addWarp(Warp warp) {
         PreparedStatement ps = null;
-        Logger log = Logger.getLogger("Minecraft");
         try {
             Connection conn = ConnectionManager.getConnection();
 
@@ -226,7 +220,6 @@ public class WarpDataSource {
     public static void deleteWarp(Warp warp) {
         PreparedStatement ps = null;
         ResultSet set = null;
-        Logger log = Logger.getLogger("Minecraft");
         try {
             Connection conn = ConnectionManager.getConnection();
 
@@ -253,7 +246,6 @@ public class WarpDataSource {
     public static void publicizeWarp(Warp warp, boolean publicAll) {
         PreparedStatement ps = null;
         ResultSet set = null;
-        Logger log = Logger.getLogger("Minecraft");
         try {
             Connection conn = ConnectionManager.getConnection();
 
@@ -281,7 +273,6 @@ public class WarpDataSource {
     public static void updatePermissions(Warp warp) {
         PreparedStatement ps = null;
         ResultSet set = null;
-        Logger log = Logger.getLogger("Minecraft");
         try {
             Connection conn = ConnectionManager.getConnection();
 
@@ -309,7 +300,6 @@ public class WarpDataSource {
     public static void updateCreator(Warp warp) {
         PreparedStatement ps = null;
         ResultSet set = null;
-        Logger log = Logger.getLogger("Minecraft");
         try {
             Connection conn = ConnectionManager.getConnection();
 
@@ -338,7 +328,6 @@ public class WarpDataSource {
     public static void updateWelcomeMessage(Warp warp) {
         PreparedStatement ps = null;
         ResultSet set = null;
-        Logger log = Logger.getLogger("Minecraft");
         try {
             Connection conn = ConnectionManager.getConnection();
 
