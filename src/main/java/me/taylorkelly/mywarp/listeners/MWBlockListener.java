@@ -2,8 +2,6 @@ package me.taylorkelly.mywarp.listeners;
 
 import me.taylorkelly.mywarp.data.SignWarp;
 import me.taylorkelly.mywarp.data.WarpList;
-import me.taylorkelly.mywarp.permissions.WarpPermissions;
-
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,7 +21,7 @@ public class MWBlockListener implements Listener
     Player player = event.getPlayer();
 
     if (SignWarp.isSignWarp(event))
-      if (WarpPermissions.createSignWarp(player)) {
+      if (player.hasPermission("mywarp.warp.sign.create")) {
         player.sendMessage(ChatColor.AQUA + "Successfully created a SignWarp");
       }
       else {

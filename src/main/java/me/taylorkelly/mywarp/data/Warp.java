@@ -3,8 +3,6 @@ package me.taylorkelly.mywarp.data;
 import java.util.ArrayList;
 
 import me.taylorkelly.mywarp.WarpSettings;
-import me.taylorkelly.mywarp.permissions.WarpPermissions;
-
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 
@@ -120,7 +118,7 @@ public class Warp {
         if (permissions.contains(player.getName())) {
             return true;
         }
-        if (WarpPermissions.isAdmin(player) && WarpSettings.adminPrivateWarps) {
+        if (player.hasPermission("mywarp.admin") && WarpSettings.adminPrivateWarps) {
             return true;
         }
 
@@ -165,7 +163,7 @@ public class Warp {
         if (creator.equals(player.getName())) {
             return true;
         }
-        if (WarpPermissions.isAdmin(player)) {
+        if (player.hasPermission("mywarp.admin")) {
             return true;
         }
         return false;

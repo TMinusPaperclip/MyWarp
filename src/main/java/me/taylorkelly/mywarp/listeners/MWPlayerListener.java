@@ -3,8 +3,6 @@ package me.taylorkelly.mywarp.listeners;
 import me.taylorkelly.mywarp.WarpSettings;
 import me.taylorkelly.mywarp.data.SignWarp;
 import me.taylorkelly.mywarp.data.WarpList;
-import me.taylorkelly.mywarp.permissions.WarpPermissions;
-
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -32,7 +30,7 @@ public class MWPlayerListener implements Listener
 	{
 		if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 			Block block = event.getClickedBlock();
-			if (((block.getState() instanceof Sign)) && (SignWarp.isSignWarp((Sign)block.getState())) && (WarpPermissions.signWarp(event.getPlayer())))
+			if (((block.getState() instanceof Sign)) && (SignWarp.isSignWarp((Sign)block.getState())) && (event.getPlayer().hasPermission("mywarp.warp.sign.warp")))
 				SignWarp.warpSign((Sign)block.getState(), this.warpList, event.getPlayer());
 		}
 	}

@@ -1,86 +1,70 @@
 package me.taylorkelly.mywarp.permissions;
 
-import me.taylorkelly.mywarp.WarpSettings;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 
 public class WarpPermissions {
-	private transient static PermissionsHandler permissionsHandler;
+    private static PluginManager pm;
 
 	public static void initialize(Plugin plugin) {
-		permissionsHandler = new PermissionsHandler(plugin);
+		pm = plugin.getServer().getPluginManager();
+        registerPermissions();
 	}
-
-    public static boolean isAdmin(Player player) {
-        return permissionsHandler.hasPermission(player, "mywarp.admin", player.isOp());
-    }
-
-    public static boolean warp(Player player) {
-            return permissionsHandler.hasPermission(player, "mywarp.warp.basic.warp", true);
-    }
-
-    public static boolean delete(Player player) {
-            return permissionsHandler.hasPermission(player, "mywarp.warp.basic.delete", true);
-    }
-
-    public static boolean list(Player player) {
-            return permissionsHandler.hasPermission(player, "mywarp.warp.basic.list", true);
-    }
-
-    public static boolean welcome(Player player) {
-            return permissionsHandler.hasPermission(player, "mywarp.warp.basic.welcome", true);
-    }
-
-    public static boolean search(Player player) {
-            return permissionsHandler.hasPermission(player, "mywarp.warp.basic.search", true);
-    }
-
-    public static boolean give(Player player) {
-            return permissionsHandler.hasPermission(player, "mywarp.warp.soc.give", true);
-    }
-
-    public static boolean invite(Player player) {
-            return permissionsHandler.hasPermission(player, "mywarp.warp.soc.invite", true);
-    }
-
-    public static boolean uninvite(Player player) {
-            return permissionsHandler.hasPermission(player, "mywarp.warp.soc.uninvite", true);
-    }
-
-    public static boolean canPublic(Player player) {
-            return permissionsHandler.hasPermission(player, "mywarp.warp.soc.public", true);
-    }
-
-    public static boolean canPrivate(Player player) {
-            return permissionsHandler.hasPermission(player, "mywarp.warp.soc.private", true);
-    }
-
-    public static boolean signWarp(Player player) {
-            return permissionsHandler.hasPermission(player, "mywarp.warp.sign.warp", true);
-    }
-
-    public static boolean privateCreate(Player player) {
-            return permissionsHandler.hasPermission(player, "mywarp.warp.basic.createprivate", true);
+	private static void registerPermissions() {
+        registerAdminPerms();
+        registerUserPerms();
+        overallPerm();
     }
     
-    public static boolean publicCreate(Player player) {
-            return permissionsHandler.hasPermission(player, "mywarp.warp.basic.createpublic", true);
-    }
-    
-    public static boolean compass(Player player) {
-            return permissionsHandler.hasPermission(player, "mywarp.warp.basic.compass", true);
+    private static void registerAdminPerms() {
+        pm.addPermission(new org.bukkit.permissions.Permission("mywarp.admin", "Admin Permission", PermissionDefault.OP));
     }
 
-    public static int maxPrivateWarps(Player player) {
-        return WarpSettings.maxPrivate;
-    }
-    
-    public static int maxPublicWarps(Player player) {
-        return WarpSettings.maxPublic;
+    private static void registerUserPerms() {
+        Map<String, Boolean> userbasicmap = new LinkedHashMap<String, Boolean>();
+        Map<String, Boolean> usersocmap = new LinkedHashMap<String, Boolean>();
+        Map<String, Boolean> usersignmap = new LinkedHashMap<String, Boolean>();
+        Map<String, Boolean> userallmap = new LinkedHashMap<String, Boolean>();
+        
+        userbasicmap.put("mywarp.warp.basic.warp", true);
+        userbasicmap.put("mywarp.warp.basic.list", true);
+        userbasicmap.put("mywarp.warp.basic.welcome", true);
+        userbasicmap.put("mywarp.warp.basic.search", true);
+        userbasicmap.put("mywarp.warp.basic.delete", true);
+        userbasicmap.put("mywarp.warp.basic.createpublic", true);
+        userbasicmap.put("mywarp.warp.basic.createprivate", true);
+        userbasicmap.put("mywarp.warp.basic.compass", true);
+        
+        usersocmap.put("mywarp.warp.soc.give", true);
+        usersocmap.put("mywarp.warp.soc.list", true);
+        usersocmap.put("mywarp.warp.soc.invite", true);
+        usersocmap.put("mywarp.warp.soc.uninvite", true);
+        usersocmap.put("mywarp.warp.soc.public", true);
+        usersocmap.put("mywarp.warp.soc.private", true);
+        
+        usersignmap.put("mywarp.warp.sign.warp", true);
+        usersignmap.put("mywarp.warp.sign.create", true);
+        
+        userallmap.put("mywarp.warp.basic.*", true);
+        userallmap.put("mywarp.warp.soc.*", true);
+        userallmap.put("mywarp.warp.sign.*", true);
+        
+        pm.addPermission(new org.bukkit.permissions.Permission("mywarp.warp.basic.*", "Basic /warp commands", PermissionDefault.TRUE, userbasicmap));
+        pm.addPermission(new org.bukkit.permissions.Permission("mywarp.warp.soc.*", "Social /warp commands", PermissionDefault.TRUE, usersocmap));
+        pm.addPermission(new org.bukkit.permissions.Permission("mywarp.warp.sign.*", "All sign based warp permissions", PermissionDefault.TRUE, usersignmap));
+        pm.addPermission(new org.bukkit.permissions.Permission("mywarp.warp.*", "All user permissions", PermissionDefault.TRUE, userallmap));
     }
 
-    public static boolean createSignWarp(Player player) {
-            return permissionsHandler.hasPermission(player, "mywarp.warp.sign.create", true);
+    public static void overallPerm() {
+        Map<String, Boolean> fullmap = new LinkedHashMap<String, Boolean>();
+        fullmap.put("mywarp.warp.*", true);
+        fullmap.put("mywarp.warp.*", true);
+        fullmap.put("mywarp.admin", true);
+        fullmap.put("mywarp.warp.*", true);
+        pm.addPermission(new org.bukkit.permissions.Permission("mywarp.*", "Full access", PermissionDefault.OP, fullmap));
     }
 }

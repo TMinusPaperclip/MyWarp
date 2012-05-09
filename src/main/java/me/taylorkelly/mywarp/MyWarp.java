@@ -98,14 +98,14 @@ public class MyWarp extends JavaPlugin {
             	/**
                  *  /warp reload
                  */
-            	if (split.length == 1 && split[0].equalsIgnoreCase("reload") && WarpPermissions.isAdmin(player)) {
+            	if (split.length == 1 && split[0].equalsIgnoreCase("reload") && player.hasPermission("mywarp.admin")) {
             		WarpSettings.initialize(getDataFolder());
             		player.sendMessage("[MyWarp] Reloading config");
                 /**
                  * /warp list or /warp list #
                  */
                 } else if ((split.length == 1 || (split.length == 2 && isInteger(split[1]))) && split[0].equalsIgnoreCase("list")
-                        && WarpPermissions.list(player)) {
+                        && player.hasPermission("mywarp.warp.basic.list")) {
                     Lister lister = new Lister(warpList);
                     lister.addPlayer(player);
 
@@ -127,12 +127,12 @@ public class MyWarp extends JavaPlugin {
                     /**
                      * /warp slist
                      */
-                } else if (split.length == 1 && split[0].equalsIgnoreCase("slist") && WarpPermissions.list(player)) {
+                } else if (split.length == 1 && split[0].equalsIgnoreCase("slist") && player.hasPermission("mywarp.warp.basic.list")) {
                     warpList.list(player);
                     /**
                      * /warp search <name>
                      */
-                } else if (split.length > 1 && split[0].equalsIgnoreCase("search") && WarpPermissions.search(player)) {
+                } else if (split.length > 1 && split[0].equalsIgnoreCase("search") && player.hasPermission("mywarp.warp.basic.search")) {
                     String name = "";
                     for (int i = 1; i < split.length; i++) {
                         name += split[i];
@@ -149,7 +149,7 @@ public class MyWarp extends JavaPlugin {
                      * /warp create <name>
                      */
                 } else if (split.length > 1 && (split[0].equalsIgnoreCase("create") || split[0].equalsIgnoreCase("set"))
-                        && (WarpPermissions.publicCreate(player) || WarpPermissions.privateCreate(player))) {
+                        && (player.hasPermission("mywarp.warp.basic.createpublic") || player.hasPermission("mywarp.warp.basic.createprivate"))) {
                     String name = "";
                     for (int i = 1; i < split.length; i++) {
                         name += split[i];
@@ -157,7 +157,7 @@ public class MyWarp extends JavaPlugin {
                             name += " ";
                         }
                     }
-                    if (WarpPermissions.publicCreate(player)) {
+                    if (player.hasPermission("mywarp.warp.basic.createpublic")) {
                         warpList.addWarp(name, player);
                     } else {
                         warpList.addWarpPrivate(name, player);
@@ -165,7 +165,7 @@ public class MyWarp extends JavaPlugin {
                     /**
                      * /warp point <name>
                      */
-                } else if (split.length > 1 && split[0].equalsIgnoreCase("point") && WarpPermissions.compass(player)) {
+                } else if (split.length > 1 && split[0].equalsIgnoreCase("point") && player.hasPermission("mywarp.warp.basic.compass")) {
                     String name = "";
                     for (int i = 1; i < split.length; i++) {
                         name += split[i];
@@ -177,7 +177,7 @@ public class MyWarp extends JavaPlugin {
                     /**
                      * /warp pcreate <name>
                      */
-                } else if (split.length > 1 && split[0].equalsIgnoreCase("pcreate") && WarpPermissions.privateCreate(player)) {
+                } else if (split.length > 1 && split[0].equalsIgnoreCase("pcreate") && player.hasPermission("mywarp.warp.basic.createprivate")) {
                     String name = "";
                     for (int i = 1; i < split.length; i++) {
                         name += split[i];
@@ -190,7 +190,7 @@ public class MyWarp extends JavaPlugin {
                     /**
                      * /warp delete <name>
                      */
-                } else if (split.length > 1 && split[0].equalsIgnoreCase("delete") && WarpPermissions.delete(player)) {
+                } else if (split.length > 1 && split[0].equalsIgnoreCase("delete") && player.hasPermission("mywarp.warp.basic.delete")) {
                     String name = "";
                     for (int i = 1; i < split.length; i++) {
                         name += split[i];
@@ -203,7 +203,7 @@ public class MyWarp extends JavaPlugin {
                     /**
                      * /warp welcome <name>
                      */
-                } else if (split.length > 1 && split[0].equalsIgnoreCase("welcome") && WarpPermissions.welcome(player)) {
+                } else if (split.length > 1 && split[0].equalsIgnoreCase("welcome") && player.hasPermission("mywarp.warp.basic.welcome")) {
                     String name = "";
                     for (int i = 1; i < split.length; i++) {
                         name += split[i];
@@ -216,7 +216,7 @@ public class MyWarp extends JavaPlugin {
                     /**
                      * /warp private <name>
                      */
-                } else if (split.length > 1 && split[0].equalsIgnoreCase("private") && WarpPermissions.canPrivate(player)) {
+                } else if (split.length > 1 && split[0].equalsIgnoreCase("private") && player.hasPermission("mywarp.warp.soc.private")) {
                     String name = "";
                     for (int i = 1; i < split.length; i++) {
                         name += split[i];
@@ -229,7 +229,7 @@ public class MyWarp extends JavaPlugin {
                     /**
                      * /warp public <name>
                      */
-                } else if (split.length > 1 && split[0].equalsIgnoreCase("public") && WarpPermissions.canPublic(player)) {
+                } else if (split.length > 1 && split[0].equalsIgnoreCase("public") && player.hasPermission("mywarp.warp.soc.public")) {
                     String name = "";
                     for (int i = 1; i < split.length; i++) {
                         name += split[i];
@@ -243,7 +243,7 @@ public class MyWarp extends JavaPlugin {
                     /**
                      * /warp give <player> <name>
                      */
-                } else if (split.length > 2 && split[0].equalsIgnoreCase("give") && WarpPermissions.give(player)) {
+                } else if (split.length > 2 && split[0].equalsIgnoreCase("give") && player.hasPermission("mywarp.warp.soc.give")) {
                     Player givee = getServer().getPlayer(split[1]);
                     // TODO Change to matchPlayer
                     String giveeName = (givee == null) ? split[1] : givee.getName();
@@ -261,7 +261,7 @@ public class MyWarp extends JavaPlugin {
                     /**
                      * /warp invite <player> <name>
                      */
-                } else if (split.length > 2 && split[0].equalsIgnoreCase("invite") && WarpPermissions.invite(player)) {
+                } else if (split.length > 2 && split[0].equalsIgnoreCase("invite") && player.hasPermission("mywarp.warp.soc.invite")) {
                     Player invitee = getServer().getPlayer(split[1]);
                     // TODO Change to matchPlayer
                     String inviteeName = (invitee == null) ? split[1] : invitee.getName();
@@ -278,7 +278,7 @@ public class MyWarp extends JavaPlugin {
                     /**
                      * /warp uninvite <player> <name>
                      */
-                } else if (split.length > 2 && split[0].equalsIgnoreCase("uninvite") && WarpPermissions.uninvite(player)) {
+                } else if (split.length > 2 && split[0].equalsIgnoreCase("uninvite") && player.hasPermission("mywarp.warp.soc.uninvite")) {
                     Player invitee = getServer().getPlayer(split[1]);
                     String inviteeName = (invitee == null) ? split[1] : invitee.getName();
 
@@ -295,7 +295,7 @@ public class MyWarp extends JavaPlugin {
                     /**
                      * /warp player <player> <name>
                      */
-                } else if (split.length > 2 && split[0].equalsIgnoreCase("player") && WarpPermissions.isAdmin(player)) {
+                } else if (split.length > 2 && split[0].equalsIgnoreCase("player") && player.hasPermission("mywarp.admin")) {
                     Player invitee = getServer().getPlayer(split[1]);
                     //String inviteeName = (invitee == null) ? split[1] : invitee.getName();
 
@@ -315,49 +315,49 @@ public class MyWarp extends JavaPlugin {
                 } else if (split.length == 1 && split[0].equalsIgnoreCase("help")) {
                     ArrayList<String> messages = new ArrayList<String>();
                     messages.add(ChatColor.RED + "-------------------- " + ChatColor.WHITE + "/WARP HELP" + ChatColor.RED + " --------------------");
-                    if (WarpPermissions.warp(player)) {
+                    if (player.hasPermission("mywarp.warp.basic.warp")) {
                         messages.add(ChatColor.RED + "/warp [name]" + ChatColor.WHITE + "  -  Warp to " + ChatColor.GRAY + "[name]");
                     }
-                    if (WarpPermissions.publicCreate(player) || WarpPermissions.privateCreate(player)) {
+                    if (player.hasPermission("mywarp.warp.basic.createpublic") || player.hasPermission("mywarp.warp.basic.createprivate")) {
                         messages.add(ChatColor.RED + "/warp create [name]" + ChatColor.WHITE + "  -  Create warp " + ChatColor.GRAY + "[name]");
                     }
-                    if (WarpPermissions.privateCreate(player)) {
+                    if (player.hasPermission("mywarp.warp.basic.createprivate")) {
                         messages.add(ChatColor.RED + "/warp pcreate [name]" + ChatColor.WHITE + "  -  Create warp " + ChatColor.GRAY + "[name]");
                     }
 
-                    if (WarpPermissions.delete(player)) {
+                    if (player.hasPermission("mywarp.warp.basic.delete")) {
                         messages.add(ChatColor.RED + "/warp delete [name]" + ChatColor.WHITE + "  -  Delete warp " + ChatColor.GRAY + "[name]");
                     }
 
-                    if (WarpPermissions.welcome(player)) {
+                    if (player.hasPermission("mywarp.warp.basic.welcome")) {
                         messages.add(ChatColor.RED + "/warp welcome [name]" + ChatColor.WHITE + "  -  Change the welcome message of " + ChatColor.GRAY
                                 + "[name]");
                     }
 
-                    if (WarpPermissions.list(player)) {
+                    if (player.hasPermission("mywarp.warp.basic.list")) {
                         messages.add(ChatColor.RED + "/warp list (#)" + ChatColor.WHITE + "  -  Views warp page " + ChatColor.GRAY + "(#)");
                     }
 
-                    if (WarpPermissions.search(player)) {
+                    if (player.hasPermission("mywarp.warp.basic.search")) {
                         messages.add(ChatColor.RED + "/warp search [query]" + ChatColor.WHITE + "  -  Search for " + ChatColor.GRAY + "[query]");
                     }
-                    if (WarpPermissions.give(player)) {
+                    if (player.hasPermission("mywarp.warp.soc.give")) {
                         messages.add(ChatColor.RED + "/warp give [player] [name[" + ChatColor.WHITE + "  -  Give " + ChatColor.GRAY + "[player]"
                                 + ChatColor.WHITE + " your " + ChatColor.GRAY + "[name]");
                     }
-                    if (WarpPermissions.invite(player)) {
+                    if (player.hasPermission("mywarp.warp.soc.invite")) {
                         messages.add(ChatColor.RED + "/warp invite [player] [name]" + ChatColor.WHITE + "  -  Invite " + ChatColor.GRAY + "[player]"
                                 + ChatColor.WHITE + " to " + ChatColor.GRAY + "[name]");
                     }
-                    if (WarpPermissions.uninvite(player)) {
+                    if (player.hasPermission("mywarp.warp.soc.uninvite")) {
                         messages.add(ChatColor.RED + "/warp uninvite [player] [name[" + ChatColor.WHITE + "  -  Uninvite " + ChatColor.GRAY + "[player]"
                                 + ChatColor.WHITE + " to " + ChatColor.GRAY + "[name]");
                     }
-                    if (WarpPermissions.canPublic(player)) {
+                    if (player.hasPermission("mywarp.warp.soc.public")) {
                         messages.add(ChatColor.RED + "/warp public [name]" + ChatColor.WHITE + "  -  Makes warp " + ChatColor.GRAY + "[name]" + ChatColor.WHITE
                                 + " public");
                     }
-                    if (WarpPermissions.canPrivate(player)) {
+                    if (player.hasPermission("mywarp.warp.soc.private")) {
                         messages.add(ChatColor.RED + "/warp private [name]" + ChatColor.WHITE + "  -  Makes warp " + ChatColor.GRAY + "[name]"
                                 + ChatColor.WHITE + " private");
                     }
@@ -368,7 +368,7 @@ public class MyWarp extends JavaPlugin {
                     /**
                      * /warp <name>
                      */
-                } else if (split.length > 0 && WarpPermissions.warp(player)) {
+                } else if (split.length > 0 && player.hasPermission("mywarp.warp.basic.warp")) {
                     // TODO ChunkLoading
                     String name = "";
                     for (int i = 0; i < split.length; i++) {
