@@ -27,16 +27,6 @@ public class SuperpermsHandler implements IPermissionsHandler {
 		if (player.hasPermission("-" + node)) {
 			return false;
 		}
-		final String[] parts = node.split("\\.");
-		final StringBuilder strbuilder = new StringBuilder(node.length());
-		for (String part : parts) {
-			strbuilder.append('*');
-			if (player.hasPermission(strbuilder.toString())) {
-				return true;
-			}
-			strbuilder.deleteCharAt(strbuilder.length() - 1);
-			strbuilder.append(part).append('.');
-		}
 		return player.hasPermission(node);
 	}
 
@@ -94,9 +84,9 @@ public class SuperpermsHandler implements IPermissionsHandler {
 		usersocmap.put("mywarp.warp.soc.private", true);
 		usersignmap.put("mywarp.warp.sign.warp", true);
 		usersignmap.put("mywarp.warp.sign.create", true);
-		userallmap.putAll(userbasicmap);
-		userallmap.putAll(usersignmap);
-		userallmap.putAll(usersocmap);
+		userallmap.put("mywarp.basic.*", true);
+		userallmap.put("mywarp.soc.*", true);
+		userallmap.put("mywarp.sign.*", true);
 		pm.addPermission(new org.bukkit.permissions.Permission("mywarp.warp.basic.*", "Basic /warp commands", PermissionDefault.TRUE, userbasicmap));
 		pm.addPermission(new org.bukkit.permissions.Permission("mywarp.warp.soc.*", "Social /warp commands", PermissionDefault.TRUE, usersocmap));
 		pm.addPermission(new org.bukkit.permissions.Permission("mywarp.warp.sign.*", "All sign based warp permissions", PermissionDefault.TRUE, usersignmap));
@@ -105,10 +95,8 @@ public class SuperpermsHandler implements IPermissionsHandler {
 
 	public static void overallPerm() {
 		Map<String, Boolean> fullmap = new LinkedHashMap<String, Boolean>();
-		fullmap.put("mywarp.warp.soc.*", true);
-		fullmap.put("mywarp.warp.sign.*", true);
+		fullmap.put("mywarp.warp.*", true);
 		fullmap.put("mywarp.admin", true);
-		fullmap.put("mywarp.warp.basic.*", true);
 		pm.addPermission(new org.bukkit.permissions.Permission("mywarp.*", "Full access", PermissionDefault.OP, fullmap));
 	}
 	
