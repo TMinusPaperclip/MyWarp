@@ -17,7 +17,6 @@ import me.taylorkelly.mywarp.listeners.MWBlockListener;
 import me.taylorkelly.mywarp.listeners.MWPlayerListener;
 import me.taylorkelly.mywarp.permissions.WarpPermissions;
 import me.taylorkelly.mywarp.sql.ConnectionManager;
-import me.taylorkelly.mywarp.utils.WarpHelp;
 import me.taylorkelly.mywarp.utils.WarpLogger;
 
 import org.bukkit.ChatColor;
@@ -69,7 +68,6 @@ public class MyWarp extends JavaPlugin {
         playerListener = new MWPlayerListener(warpList);
 
         WarpPermissions.initialize(this);
-        WarpHelp.initialize(this);
         
         pm.registerEvents(blockListener, this);
         pm.registerEvents(playerListener, this);

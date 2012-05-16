@@ -21,6 +21,7 @@ public class WarpSettings {
     public static String mySQLconn;
 
     public static boolean opPermissions;
+    public static boolean forceSuperPerms;
     
     public static void initialize(File dataFolder) {
         if(!dataFolder.exists()) {
@@ -43,6 +44,7 @@ public class WarpSettings {
 		mySQLpass = file.getString("mySQLpass", "password", "MySQL Password (only if using MySQL)");
 		
 		opPermissions = file.getBoolean("opPermissions", true, "Enable OP permissions with SuperPerms");
+        forceSuperPerms = file.getBoolean("forceSuperPerms", false, "Force MyWarp to use Bukkit's built in permission system");
 		
         file.save();
     }
